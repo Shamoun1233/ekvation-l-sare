@@ -3,12 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask Webbsida</title>
+    <title>Matte Räknare</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        input { padding: 10px; font-size: 18px; }
+        button { padding: 10px; font-size: 18px; background: blue; color: white; border: none; }
+        .result { margin-top: 20px; font-size: 20px; }
+    </style>
 </head>
 <body>
-    <h1>Flask Webbsida</h1>
-    <p>Du har 20 - 3y</p>
-    <p>Y är: {{ question }}</p>
-    <p>Resultat: 20 - 3 * {{ question }} = {{ svar }}</p>
+    <h1>Beräkna 20 - 3y</h1>
+    <form method="post">
+        <label for="question">Skriv in värdet för y:</label>
+        <input type="number" name="question" required>
+        <button type="submit">Beräkna</button>
+    </form>
+
+    {% if resultat is not none %}
+    <div class="result">
+        <p>Y värdet är: {{ question }}</p>
+        <p>Resultat: {{ resultat }}</p>
+        <p>{{ förklaring }}</p>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
 </body>
 </html>
