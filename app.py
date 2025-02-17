@@ -1,15 +1,23 @@
-from flask import Flask, render_template
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    ek = 20  
-    question = 3  
-    tion = 3 * question  
-    svar = ek - tion  
+    if request.method == 'POST':
+        try:
+            ek = 20  # Startvärde
+            question = int(request.form.get('question'))  # Hämta användarens input
+            tion = 3 * question  # Multiplicera y med 3
+            resultat = ek - tion if ek >= tion else tion - ek  # Se till att det inte blir negativt
 
-    return render_template("index.html", question=question, svar=svar)
+            förklaring = f"Vi tar 20 - (3 * {question}), vilket ger {resultat}."  # Förklaring
 
-if __name__ == "__main__":
-    app.run(debug=True)
+            return render_template('index.html', question=question, resultat=resultat, förklaring=förklaring)
+        except ValueError:
+            return render_template('index.html', error="Skriv in ett giltigt nummer!")
+
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000)
