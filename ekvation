@@ -1,0 +1,171 @@
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return '''
+        <html>
+        <head>
+            <title>Beräkna 20 - 3y</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #1e1e1e;
+                    color: white;
+                    text-align: center;
+                    padding: 50px;
+                }
+                .container {
+                    background: #333;
+                    padding: 20px;
+                    border-radius: 10px;
+                    width: 50%;
+                    margin: auto;
+                    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+                }
+                input {
+                    padding: 15px;
+                    border: none;
+                    border-radius: 5px;
+                    margin-top: 10px;
+                    width: 80%;
+                    text-align: center;
+                    font-size: 20px;
+                }
+                button {
+                    background: #00d1b2;
+                    color: white;
+                    padding: 15px 25px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin-top: 10px;
+                    font-size: 20px;
+                }
+                button:hover {
+                    background: #00a896;
+                }
+
+                /* 📱 Responsive Design: Bigger text & buttons for phones */
+                @media (max-width: 768px) {
+                    .container {
+                        width: 90%;
+                        padding: 30px;
+                    }
+                    input, button {
+                        font-size: 24px;
+                        padding: 20px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Beräkna 20 - 3y</h1>
+                <form action="/calculate" method="post">
+                    <input type="number" name="y" placeholder="Ange ett värde för y" required>
+                    <br>
+                    <button type="submit">Beräkna</button>
+                </form>
+            </div>
+        </body>
+        </html>
+    '''
+
+@app.route('/calculate', methods=['POST'])
+def calculate():
+    ek = 20  # Startvärde
+    question = int(request.form['y'])
+    tion = 3 * question
+    result_value = ek - tion
+
+    explanation = f"""
+        <p class='explanation'>
+            Vi börjar med ekvationen: <br>
+            <strong>20 - 3 * {question}</strong> <br><br>
+            Steg 1: Multiplicera 3 med {question}: <br>
+            <strong>3 * {question} = {tion}</strong> <br><br>
+            Steg 2: Subtrahera detta från 20: <br>
+            <strong>20 - {tion} = {result_value}</strong> <br><br>
+            Så svaret blir: <strong>{result_value}</strong>.
+        </p>
+    """
+
+    return f'''
+        <html>
+        <head>
+            <title>Resultat</title>
+            <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    background-color: #1e1e1e;
+                    color: white;
+                    text-align: center;
+                    padding: 50px;
+                }}
+                .container {{
+                    background: #333;
+                    padding: 20px;
+                    border-radius: 10px;
+                    width: 50%;
+                    margin: auto;
+                    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+                }}
+                .result {{
+                    font-size: 24px;
+                    margin-top: 20px;
+                }}
+                .explanation {{
+                    font-size: 18px;
+                    color: #cccccc;
+                    text-align: left;
+                    margin-top: 20px;
+                    padding: 15px;
+                    border-radius: 10px;
+                    background: #222;
+                }}
+                a {{
+                    color: #00d1b2;
+                    text-decoration: none;
+                    font-size: 18px;
+                    display: inline-block;
+                    margin-top: 20px;
+                }}
+                a:hover {{
+                    text-decoration: underline;
+                }}
+
+                /* 📱 Responsive Design for Phones */
+                @media (max-width: 768px) {{
+                    .container {{
+                        width: 90%;
+                        padding: 30px;
+                    }}
+                    .result {{
+                        font-size: 28px;
+                    }}
+                    .explanation {{
+                        font-size: 20px;
+                        padding: 20px;
+                    }}
+                    a {{
+                        font-size: 22px;
+                    }}
+                }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Resultat</h1>
+                <p class="result">Y värdet är <strong>{question}</strong></p>
+                <p class="result">20 - 3 * {question} = <strong>{result_value}</strong></p>
+                {explanation}
+                <a href="/">⬅ Gå tillbaka</a>
+            </div>
+        </body>
+        </html>
+    '''
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=81)
