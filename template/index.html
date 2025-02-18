@@ -3,32 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matte Räknare</title>
+    <title>Beräkna 20 - 3y</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        input { padding: 10px; font-size: 18px; }
-        button { padding: 10px; font-size: 18px; background: blue; color: white; border: none; }
-        .result { margin-top: 20px; font-size: 20px; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        input, button {
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        button {
+            background: #00d1b2;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
-    <h1>Beräkna 20 - 3y</h1>
-    <form method="post">
-        <label for="question">Skriv in värdet för y:</label>
-        <input type="number" name="question" required>
-        <button type="submit">Beräkna</button>
-    </form>
-
-    {% if resultat is not none %}
-    <div class="result">
-        <p>Y värdet är: {{ question }}</p>
-        <p>Resultat: {{ resultat }}</p>
-        <p>{{ förklaring }}</p>
+    <div class="container">
+        <h1>Beräkna 20 - 3y</h1>
+        <form action="/" method="POST">
+            <input type="number" name="question" placeholder="Ange ett värde för y" required>
+            <button type="submit">Beräkna</button>
+        </form>
+        {% if resultat is not none %}
+            <p>Resultat: <strong>{{ resultat }}</strong></p>
+            <p>{{ förklaring }}</p>
+        {% endif %}
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
     </div>
-    {% endif %}
-
-    {% if error %}
-    <p style="color: red;">{{ error }}</p>
-    {% endif %}
 </body>
 </html>
