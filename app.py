@@ -2,8 +2,11 @@ from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST', 'HEAD'])
 def home():
+    if request.method == 'HEAD':
+        return "", 200  # Handle HEAD requests properly
+
     if request.method == 'POST':
         try:
             ek = 20  # Startvärde
