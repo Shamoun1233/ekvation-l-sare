@@ -4,19 +4,20 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    try:
-        if request.method == 'POST':
-            ek = 20  
-            question = int(request.form.get('question'))  
-            tion = 3 * question  
-            resultat = ek - tion if ek >= tion else tion - ek  
-            förklaring = f"Vi tar 20 - (3 * {question}), vilket ger {resultat}."  
+    if request.method == 'POST':
+        try:
+            ek = 20  # Startvärde
+            question = int(request.form.get('question'))  # Hämta användarens input
+            tion = 3 * question  # Multiplicera y med 3
+            resultat = ek - tion if ek >= tion else tion - ek  # Se till att det inte blir negativt
+
+            förklaring = f"Vi tar 20 - (3 * {question}), vilket ger {resultat}."  # Förklaring
 
             return render_template('index.html', question=question, resultat=resultat, förklaring=förklaring)
-        return render_template('index.html')
-    except Exception as e:
-        print(f"ERROR: {e}")  # Print error in terminal
-        return f"Internal Server Error: {e}", 500  
+        except ValueError:
+            return render_template('index.html', error="Skriv in ett giltigt nummer!")
+
+    return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)  # Enable debug mode
+    app.run(debug=True, host="0.0.0.0", port=5000)  # 🔥 Debug mode ON
