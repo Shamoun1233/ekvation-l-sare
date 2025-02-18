@@ -15,7 +15,8 @@ def home():
             return render_template('index.html', question=question, resultat=resultat, förklaring=förklaring)
         return render_template('index.html')
     except Exception as e:
-        return f"Error: {e}", 500  # Shows error message
+        print(f"ERROR: {e}")  # Print error in terminal
+        return f"Internal Server Error: {e}", 500  
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)  # Enable debug mode
